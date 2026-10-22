@@ -1,0 +1,44 @@
+{
+  "skill_name": "efficient-codebase-search",
+  "evals": [
+    {
+      "id": 0,
+      "eval_name": "reference-trace-no-scope",
+      "prompt": "Use efficient codebase search to trace all references to JobUIHelper across this repository (C:\\LAS\\IM\\PC-IM-004\\modules\\configuration). Tell me where it's defined and what uses it.",
+      "expected_output": "A scope inference step (no directories given), a compact reference set (definition location, occurrence/reference counts, grouped reference locations) rather than every one of the ~139 occurrences dumped raw, and a clear statement of what was/wasn't individually inspected and why. No renaming/refactoring decisions.",
+      "files": [],
+      "assertions": [
+        "States the definition file location for JobUIHelper",
+        "Reports an aggregate occurrence or reference count rather than only a raw per-line dump of all ~139 hits",
+        "Explicitly notes that no directory/scope was given and that scope was inferred from repository structure",
+        "Does not take or recommend any renaming/deletion/refactoring action on JobUIHelper"
+      ]
+    },
+    {
+      "id": 1,
+      "eval_name": "ambiguous-acronym-batching",
+      "prompt": "Use efficient codebase search to find where UW shows up across gsrc, bizrules, and config data in this repository, and flag anything ambiguous.",
+      "expected_output": "Results grouped/deduplicated/counted rather than a raw list of ~341 hits; explicit note that UW is a short/ambiguous identifier without the skill deciding which occurrences are 'real'; respects the caller-given priority areas while not necessarily treating them as a hard restriction.",
+      "files": [],
+      "assertions": [
+        "Explicitly flags UW as a short or potentially ambiguous identifier",
+        "Reports grouped/counted results (occurrence and/or file counts) rather than an undifferentiated raw list of every match",
+        "Covers the caller-specified priority areas (gsrc, bizrules, config data)",
+        "Does not independently classify which UW occurrences are the 'real'/relevant ones (defers that judgment)"
+      ]
+    },
+    {
+      "id": 2,
+      "eval_name": "scoped-fallout-discovery",
+      "prompt": "Use efficient codebase search on CUSTLobImportExportHelper in this repository — find its definition, what calls it, and any related config or tests.",
+      "expected_output": "Correctly identifies the small, contained result set (definition + ~2 callers), attempts fallout/dependency discovery (related config/tests) with confidence labeling (directly confirmed / likely related / uncertain) rather than deep recursive traversal, and does not make cleanup/removal decisions.",
+      "files": [],
+      "assertions": [
+        "States the definition file location for CUSTLobImportExportHelper",
+        "Names the caller/reference files (the resolver classes) that use it",
+        "Uses some form of confidence labeling (e.g. directly confirmed / likely related / uncertain) when reporting related config or test findings",
+        "Does not take or recommend any cleanup/removal/modification action"
+      ]
+    }
+  ]
+}

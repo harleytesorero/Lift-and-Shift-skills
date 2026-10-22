@@ -5,6 +5,7 @@ Collection of skills used to support Lift and Shift project activities and autom
 | Folder | Type | What it does |
 |--------|------|--------------|
 | `columbia-cleanup` | Standalone skill | Finds and removes/renames client-specific references (Columbia, CIG, AMBest, NAICO) with a human approval gate before any change |
+| `efficient-codebase-search` | Standalone skill (required by `columbia-cleanup`) | Token-efficient strategy for searching large codebases and tracing references. `columbia-cleanup` delegates its repository discovery and reference tracing to it |
 | `guidewire-version-upgrade` | Standalone skill | Upgrades a Guidewire PolicyCenter LOB from one platform version to another using a three-way delta approach |
 | `pc-lob-removal` | Project toolkit (agents + skills + context) | Agent knowledge base for PolicyCenter LOB removal. See `pc-lob-removal/README.md` |
 
@@ -16,9 +17,11 @@ Collection of skills used to support Lift and Shift project activities and autom
   git clone https://github.com/harleytesorero/Lift-and-Shift-skills.git
   ```
 
-## Installing and using `columbia-cleanup` and `guidewire-version-upgrade`
+## Installing and using `columbia-cleanup`, `efficient-codebase-search` and `guidewire-version-upgrade`
 
 These are standalone skills. Install them once on your computer and they are available in every project.
+
+> **`columbia-cleanup` needs `efficient-codebase-search`.** Always install both together. Without `efficient-codebase-search`, `columbia-cleanup` cannot run its repository discovery and reference tracing.
 
 1. Copy the skill folders into your personal Claude skills folder:
 
@@ -31,12 +34,14 @@ These are standalone skills. Install them once on your computer and they are ava
    ```powershell
    New-Item -ItemType Directory -Force "$env:USERPROFILE\.claude\skills"
    Copy-Item -Recurse .\columbia-cleanup "$env:USERPROFILE\.claude\skills\"
+   Copy-Item -Recurse .\efficient-codebase-search "$env:USERPROFILE\.claude\skills\"
    Copy-Item -Recurse .\guidewire-version-upgrade "$env:USERPROFILE\.claude\skills\"
    ```
 
    The result should look like this (each skill's `SKILL.md` directly inside its own folder):
    ```
    .claude/skills/columbia-cleanup/SKILL.md
+   .claude/skills/efficient-codebase-search/SKILL.md
    .claude/skills/guidewire-version-upgrade/SKILL.md
    ```
 
@@ -45,8 +50,10 @@ These are standalone skills. Install them once on your computer and they are ava
 4. Invoke a skill by typing its name as a slash command:
    ```
    /columbia-cleanup
+   /efficient-codebase-search
    /guidewire-version-upgrade
    ```
+   `/efficient-codebase-search` is normally called by `columbia-cleanup` for you, but you can also run it directly.
    You can also ask in plain words (for example "run the Columbia cleanup") and Claude will pick up the skill.
 
 > To share a skill with only one project instead of your whole computer, put it in `<project-root>/.claude/skills/` instead.
@@ -87,6 +94,8 @@ These are standalone skills. Install them once on your computer and they are ava
    /pcf-find-usages
    /entity-find-usages
    /gosu-find-usages
+   /typelist-find-usages
+   /typelist-removal-skill
    /grill-me
    ```
    The agents (`gw-pcf-agent`, `gw-gosu-agent`, `gw-entity-agent`, `gw-typelist-agent`, `gw-build-agent`, `gw-planner-agent`) are available to Claude automatically once the files are in `.claude/agents/`.
